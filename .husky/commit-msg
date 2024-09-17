@@ -1,0 +1,26 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+#!/bin/sh 
+MSG=`awk '{printf("%s",$0)}' $1` 
+echo "Comment: $MSG" 
+nonEng=$(echo $MSG | sed 's/[a-zA-Z0-9[:punct:][:space:]]//g') 
+if [[ ${#nonEng} -gt 0 ]] 
+then 
+    echo "Invalid Character: $nonEng" 
+    echo "Contains Invalid Character, please use the following format: [SHOPPER-XXX] XXX" 
+    exit 1  
+fi 
+if [[ $MSG =~ (^\[SHOPPER\-[0-9]*[1-9][0-9]*\]).* ]] 
+then 
+    echo "Comment valid" 
+else 
+    if [[ $MSG =~ (Merge.*branch.*) ]] 
+    then 
+        echo "Dose not check the commit message for [Merge branch]." 
+    else 
+        echo "Comment Invalid, please use the following format: [SHOPPER-XXX] XXX" 
+        exit 1 
+    fi 
+fi 
+
