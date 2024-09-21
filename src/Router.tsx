@@ -1,15 +1,17 @@
 import React, { Suspense } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Login from "@pages/authentication/Login";
 import { PrivateRoute } from "@hoc/PrivateRoute";
-import Content from "@pages/content/Content";
+import Layout from "@pages/layout/Layout";
 
-function App() {
+function Router() {
   return (
     <Suspense fallback={<h1>Loading...</h1>}>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Layout />} />
+          {/* <Route
           path="/"
           element={
             <PrivateRoute>
@@ -19,12 +21,12 @@ function App() {
         >
           <Route>
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
-            {/* <Route path="/dashboard" element={<Dashboard />} /> */}
           </Route>
-        </Route>
-      </Routes>
+        </Route> */}
+        </Routes>
+      </BrowserRouter>
     </Suspense>
   );
 }
 
-export default App;
+export default Router;
