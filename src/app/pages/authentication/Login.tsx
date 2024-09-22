@@ -17,7 +17,6 @@ const Login = (props: Props) => {
   return (
     <div className="h-screen flex items-center login ">
       <div className="w-[400px] mx-auto shadow-md rounded-md px-[32px] py-[40px]">
-        {/* <img alt="logo" src={Logo} className="size-24 mr-auto ml-auto mb-4" /> */}
         {!isForgotPassword ? (
           <>
             <h3 className="text-center scroll-m-20 text-2xl font-semibold tracking-tight mb-6">
@@ -54,7 +53,12 @@ const Login = (props: Props) => {
               </Form.Item>
 
               <Form.Item>
-                <Button block type="primary" htmlType="submit">
+                <Button
+                  block
+                  type="primary"
+                  htmlType="submit"
+                  loading={isLoading}
+                >
                   Log in
                 </Button>
               </Form.Item>
@@ -65,8 +69,6 @@ const Login = (props: Props) => {
           <></>
         )}
       </div>
-      <div className="svg-background1"></div>
-      <div className="svg-background2"></div>
     </div>
   );
 };

@@ -1,3 +1,4 @@
+import { Context } from "@utils/context";
 import { Navigate, useLocation } from "react-router-dom";
 
 export const PrivateRoute = (props: {
@@ -5,7 +6,7 @@ export const PrivateRoute = (props: {
 }): JSX.Element => {
   const { children } = props;
 
-  const isLoggedIn = JSON.parse(localStorage.getItem("user")!)?.isLoggedIn;
+  const isLoggedIn = JSON.parse(Context.user)?.isLoggedIn;
   const location = useLocation();
 
   return isLoggedIn ? (
