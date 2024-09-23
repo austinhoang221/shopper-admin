@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Header from "../../components/header/Header";
-import { Layout as AntLayout } from "antd";
+import { Layout as AntLayout, message } from "antd";
 import { Content } from "antd/es/layout/layout";
 import Menu from "@components/menu/Menu";
 import ServerError from "@pages/serverError/serverError";
@@ -15,6 +15,13 @@ const Layout = (props: Props) => {
   const [isShowNotFoundPage, setIsShowNotFoundPage] =
     React.useState<boolean>(false);
 
+  const [messageApi, contextHolder] = message.useMessage();
+  const showErrorMessage = (message: string) => {
+    messageApi.open({
+      type: "error",
+      content: message,
+    });
+  };
   React.useEffect(() => {
     const handleShowServerErrorPage = () => {
       if (localStorage.getItem("IsServerError") === "true") {
@@ -31,10 +38,25 @@ const Layout = (props: Props) => {
   }, []);
 
   React.useEffect(() => {
+    const handleBadRequest = () => {
+      if (localStorage.getItem("BadRequest")) {
+        showErrorMessage(localStorage.getItem("BadRequest")!);
+        localStorage.removeItem("BadRequest");
+      }
+    };
+
+    window.addEventListener("storage", handleBadRequest);
+
+    return () => {
+      window.removeEventListener("storage", handleBadRequest);
+    };
+  }, []);
+
+  React.useEffect(() => {
     const handleShowNotFoundPage = () => {
-      if (localStorage.getItem("isShowNotFoundPage") === "true") {
+      if (localStorage.getItem("IsShowNotFoundPage") === "true") {
         setIsShowNotFoundPage(true);
-        localStorage.removeItem("isShowNotFoundPage");
+        localStorage.removeItem("IsShowNotFoundPage");
       }
     };
 
@@ -55,13 +77,14 @@ const Layout = (props: Props) => {
             <Outlet />
           </Content>
         </AntLayout>
+        {contextHolder}
       </AntLayout>
     );
-    // if (isShowServerError) {
-    //   res = renderServerErrorPage();
-    // } else if (isShowNotFoundPage) {
-    //   res = renderNotFoundPage();
-    // }
+    if (isShowServerError) {
+      res = renderServerErrorPage();
+    } else if (isShowNotFoundPage) {
+      res = renderNotFoundPage();
+    }
     return res;
   };
 
@@ -69,17 +92,7 @@ const Layout = (props: Props) => {
 
   const renderNotFoundPage = () => <NotFound />;
 
-  return (
-    <AntLayout className="bg-white" hasSider>
-      <Menu />
-      <AntLayout className="bg-white">
-        <Header />
-        <Content className="mx-8 my-4">
-          <Outlet />
-        </Content>
-      </AntLayout>
-    </AntLayout>
-  );
+  return render();
 };
 
 export default Layout;

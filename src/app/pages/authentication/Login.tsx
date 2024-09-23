@@ -1,7 +1,10 @@
-import { Button, Checkbox, Flex, Form, Input } from "antd";
+import { Button, Checkbox, Flex, Form, Input, message } from "antd";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.scss";
+import { service } from "api/services/services";
+import { Context } from "@utils/context";
+import { UserLoginRequest } from "api/services/Client";
 
 type Props = {};
 
@@ -9,9 +12,30 @@ const Login = (props: Props) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isForgotPassword, setIsForgotPassword] = useState<boolean>(false);
+  const [messageApi, contextHolder] = message.useMessage();
 
-  const onFinish = (values: any) => {
-    console.log("Received values of form: ", values);
+  const onFinish = async (values: any) => {
+    setIsLoading(true);
+    try {
+      const response = await service.client.login(
+        UserLoginRequest.fromJS({
+          username: values.username,
+          password: values.password,
+        })
+      );
+      Context.user = {
+        id: response.id,
+        token: response.accessToken,
+      };
+      navigate("/");
+    } catch (error) {
+      messageApi.open({
+        type: "error",
+        content: "Username or password incorrect",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -69,6 +93,7 @@ const Login = (props: Props) => {
           <></>
         )}
       </div>
+      {contextHolder}
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import { Context } from "@utils/context";
 import { HTTPStatusCodeType } from "api/enums/HttpStatusCodeType";
+import { Client } from "./Client";
 
 const baseUrl = "http://localhost:5283";
 const authorizedFetchFunction = (
@@ -9,10 +10,7 @@ const authorizedFetchFunction = (
   const controller: AbortController = new AbortController();
   const signal: AbortSignal = controller.signal;
   const headers = {
-    Accept: "application/json",
-    "Content-Type": "application/json",
     Authorization: `Bearer ${Context.token}`,
-    "Access-Control-Max-Age": 600,
     signal,
   };
   init = init || {};
@@ -29,13 +27,8 @@ const catchServiceErrors = <T>(target: T): T => {
       descriptor.value = async function (...args: A[]) {
         try {
           const res = await originalMethod.apply(this, args);
-          if (res?.statusCode === HTTPStatusCodeType.INTERNAL_SERVER_ERROR) {
-            localStorage.setItem("IsCommonServerError", "true");
-            dispatchEvent(new Event("storage"));
-            return new Promise(() => {});
-          }
           return res;
-        } catch (error) {
+        } catch (error: A) {
           handleServiceError(error);
         }
       };
@@ -53,6 +46,8 @@ const handleServiceError = (error: A) => {
       window.localStorage.clear();
       window.document.location = `${window.location.origin}/login`;
       break;
+    case HTTPStatusCodeType.BAD_REQUEST:
+      throw new Error(error?.errors?.[0].message);
     case HTTPStatusCodeType.INTERNAL_SERVER_ERROR:
       localStorage.setItem("IsServerError", "true");
       dispatchEvent(new Event("storage"));
@@ -65,4 +60,18 @@ const handleServiceError = (error: A) => {
       console.error(error);
       break;
   }
+};
+
+const ClientApi = catchServiceErrors(
+  new Client(baseUrl, {
+    fetch: authorizedFetchFunction,
+  })
+);
+
+interface Service {
+  client: Client;
+}
+
+export const service: Service = {
+  client: ClientApi,
 };
