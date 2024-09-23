@@ -1,108 +1,200 @@
-import { Table, TableColumnsType } from "antd";
+import { Button, Table, TableColumnsType, Tooltip, Image } from "antd";
 import React from "react";
+import { faker } from "@faker-js/faker";
+import Title from "antd/es/typography/Title";
+import Search from "antd/es/input/Search";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFileExport,
+  faFileImport,
+  faListAlt,
+  faPlus,
+} from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 type Props = {};
 
 const Product = (props: Props) => {
+  const [products, setProducts] = React.useState<DataType[]>([]);
   interface DataType {
     key: React.Key;
+    img: string;
     name: string;
-    age: number;
-    address: string;
+    code: string;
+    costprice: string;
+    sellingprice: string;
+    stock: number;
+    supplier: string;
+    createdt: string;
+    unit: string;
+    weight: string;
+    txdesc: string;
   }
+
+  const createFakeData = () => {
+    const arr: DataType[] = [];
+    for (let i = 0; i < 100; i++) {
+      const units = ["piece", "box", "pack", "set"];
+      const unit = units[Math.floor(Math.random() * units.length)];
+      const date = faker.date.past();
+      const formattedDate = date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      });
+      arr.push({
+        key: faker.string.uuid(),
+        img: faker.image.url(),
+        name: faker.commerce.product(),
+        code: `PRO${i}`,
+        costprice: faker.commerce.price({ min: 10, max: 50 }) + "€",
+        sellingprice: faker.commerce.price({ min: 10, max: 50 }) + "€",
+        stock: Math.floor(Math.random() * 10) + 1,
+        supplier: faker.company.name(),
+        createdt: formattedDate.toString(),
+        txdesc: faker.commerce.productDescription(),
+        unit: unit,
+        weight: `${Math.floor(Math.random() * 150)}g`,
+      });
+    }
+    setProducts(arr);
+  };
+
+  React.useEffect(() => {
+    createFakeData();
+  }, []);
+
   const columns: TableColumnsType<DataType> = [
     {
-      title: "Full Name",
+      title: "Image",
+      width: 150,
+      align: "center",
+      render: (item: DataType) => (
+        <Image width={100} src={item.img} height={100} />
+      ),
+    },
+    {
+      title: "Code",
       width: 100,
+      dataIndex: "code",
+      key: "code",
+      align: "left",
+      sorter: (a, b) => a.code.length - b.code.length,
+    },
+    {
+      title: "Name",
+      width: 150,
       dataIndex: "name",
       key: "name",
-      fixed: "left",
+      align: "left",
+      render: (text: string) => <a className="text-primary">{text}</a>,
+      sorter: (a, b) => a.name.length - b.name.length,
     },
     {
-      title: "Age",
+      title: "Cost price",
+      dataIndex: "costprice",
+      key: "costprice",
+      width: 150,
+      align: "right",
+      sorter: (a, b) => a.costprice.length - b.costprice.length,
+    },
+    {
+      title: "Selling price",
+      dataIndex: "sellingprice",
+      key: "sellingprice",
+      width: 150,
+      align: "right",
+      sorter: (a, b) => a.sellingprice.length - b.sellingprice.length,
+    },
+    {
+      title: "Stock",
+      dataIndex: "stock",
+      key: "stock",
       width: 100,
-      dataIndex: "age",
-      key: "age",
-      fixed: "left",
+      align: "right",
+      sorter: (a, b) => a.stock - b.stock,
     },
     {
-      title: "Column 1",
-      dataIndex: "address",
-      key: "1",
+      title: "Supplier",
+      dataIndex: "supplier",
+      key: "supplier",
       width: 150,
+      align: "left",
+      sorter: (a, b) => a.supplier.length - b.supplier.length,
     },
     {
-      title: "Column 2",
-      dataIndex: "address",
-      key: "2",
-      width: 150,
-    },
-    {
-      title: "Column 3",
-      dataIndex: "address",
-      key: "3",
-      width: 150,
-    },
-    {
-      title: "Column 4",
-      dataIndex: "address",
-      key: "4",
-      width: 150,
-    },
-    {
-      title: "Column 5",
-      dataIndex: "address",
-      key: "5",
-      width: 150,
-    },
-    {
-      title: "Column 6",
-      dataIndex: "address",
-      key: "6",
-      width: 150,
-    },
-    {
-      title: "Column 7",
-      dataIndex: "address",
-      key: "7",
-      width: 150,
-    },
-    { title: "Column 8", dataIndex: "address", key: "8" },
-    {
-      title: "Action",
-      key: "operation",
-      fixed: "right",
+      title: "Unit",
+      dataIndex: "unit",
+      key: "unit",
       width: 100,
-      render: () => <a>action</a>,
+      align: "center",
+      sorter: (a, b) => a.unit.length - b.unit.length,
+    },
+    {
+      title: "Weight",
+      dataIndex: "weight",
+      key: "weight",
+      width: 100,
+      align: "center",
+      sorter: (a, b) => a.weight.length - b.weight.length,
+    },
+    {
+      title: "Description",
+      dataIndex: "txdesc",
+      key: "txdesc",
+      width: 200,
+      align: "left",
+      sorter: (a, b) => a.txdesc.length - b.txdesc.length,
+    },
+    {
+      title: "Created date",
+      dataIndex: "createdt",
+      key: "createdt",
+      width: 150,
+      align: "center",
     },
   ];
-  const data: DataType[] = [];
-  for (let i = 0; i < 100; i++) {
-    data.push({
-      key: i,
-      name: `Edward ${i}`,
-      age: 32,
-      address: `London Park no. ${i}`,
-    });
-  }
+
   return (
-    <Table
-      columns={columns}
-      dataSource={data}
-      scroll={{ x: 1500 }}
-      summary={() => (
-        <Table.Summary fixed={"top"}>
-          <Table.Summary.Row>
-            <Table.Summary.Cell index={2} colSpan={8}>
-              Scroll Context
-            </Table.Summary.Cell>
-            <Table.Summary.Cell index={10}>Fix Right</Table.Summary.Cell>
-          </Table.Summary.Row>
-        </Table.Summary>
-      )}
-      // antd site header height
-      sticky={{ offsetHeader: 64 }}
-    />
+    <>
+      <Title level={3}>Product Management</Title>
+      <div className="flex items-center justify-between mb-2">
+        <Search
+          placeholder="Search by name or code"
+          style={{ width: 300 }}
+          allowClear
+          enterButton
+        />
+        <div className="flex">
+          <Tooltip title="Create">
+            <Button type="primary" className="mr-2">
+              <FontAwesomeIcon icon={faPlus} />
+            </Button>
+          </Tooltip>
+          <Tooltip title="Export">
+            <Button className="mr-2">
+              <FontAwesomeIcon icon={faFileExport} />
+            </Button>
+          </Tooltip>
+          <Tooltip title="Import">
+            <Button className="mr-2">
+              <FontAwesomeIcon icon={faFileImport} />
+            </Button>
+          </Tooltip>
+          <Tooltip title="Config">
+            <Button className="mr-2">
+              <FontAwesomeIcon icon={faListAlt} />
+            </Button>
+          </Tooltip>
+        </div>
+      </div>
+      <Table
+        columns={columns}
+        dataSource={products}
+        scroll={{ y: 400 }}
+        sticky={{ offsetHeader: 64 }}
+      />
+    </>
   );
 };
 

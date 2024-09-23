@@ -6,7 +6,7 @@ export const PrivateRoute = (props: {
 }): JSX.Element => {
   const { children } = props;
 
-  const isLoggedIn = JSON.parse(Context.user)?.isLoggedIn;
+  const isLoggedIn = !!Context.user;
   const location = useLocation();
 
   return isLoggedIn ? (
@@ -14,7 +14,7 @@ export const PrivateRoute = (props: {
   ) : (
     <Navigate
       replace={true}
-      to="/login"
+      to="/unauthorized"
       state={{ from: `${location.pathname}${location.search}` }}
     />
   );
