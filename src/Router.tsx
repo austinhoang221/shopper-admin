@@ -9,7 +9,7 @@ import Dashboard from "@pages/layout/dashboard/Dashboard";
 import UnSupported from "@pages/unsupported/UnSupported";
 import UnAuthorized from "@pages/unauthorized/UnAuthorized";
 import ProductCategory from "@pages/layout/product-category/ProductCategory";
-// import OrderDetail from "@pages/layout/order-details/OrderDetail";
+import OrderDetail from "@pages/layout/order-details/OrderDetail";
 
 function Router() {
   return (
@@ -30,7 +30,7 @@ function Router() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/product" element={<Product />} />
               <Route path="/category" element={<ProductCategory />} />
-              {/* <Route path="/order/order-details" element={<OrderDetail />} /> */}
+              <Route path="/order/order-details" element={<OrderDetail />} />
               <Route path="*" element={<UnSupported />} />
             </Route>
           </Route>

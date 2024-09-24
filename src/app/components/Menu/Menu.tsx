@@ -56,26 +56,26 @@ const Menu = (props: Props) => {
       ),
       icon: <FontAwesomeIcon icon={faTh} />,
     },
-    // {
-    //   key: "order",
-    //   label: (
-    //     <Link to="/order">
-    //       <span className="ml-2">Order Management</span>
-    //     </Link>
-    //   ),
-    //   icon: <FontAwesomeIcon icon={faUserTie} />,
-    //   children: [
-    //     {
-    //       key: "order-details",
-    //       label: (
-    //         <Link to="/order/order-details">
-    //           <span className="ml-2">Order Detail</span>
-    //         </Link>
-    //       ),
-    //       icon: <FontAwesomeIcon icon={faUserAlt} />,
-    //     },
-    //   ],
-    // },
+    {
+      key: "order",
+      label: (
+        <Link to="/order">
+          <span className="ml-2">Order Management</span>
+        </Link>
+      ),
+      icon: <FontAwesomeIcon icon={faUserTie} />,
+      children: [
+        {
+          key: "order-details",
+          label: (
+            <Link to="/order/order-details">
+              <span className="ml-2">Order Detail</span>
+            </Link>
+          ),
+          icon: <FontAwesomeIcon icon={faUserAlt} />,
+        },
+      ],
+    },
     {
       key: "transaction",
       label: (
