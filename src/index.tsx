@@ -3,6 +3,8 @@ import ReactDOM from "react-dom/client";
 import Router from "./Router";
 import { ConfigProvider } from "antd";
 import "./index.scss";
+import { Provider } from "react-redux";
+import { store } from "reduxConfig/store";
 const rootElement = (
   <ConfigProvider
     theme={{
@@ -13,7 +15,9 @@ const rootElement = (
       },
     }}
   >
-    <Router />
+    <Provider store={store}>
+      <Router />
+    </Provider>
   </ConfigProvider>
 );
 

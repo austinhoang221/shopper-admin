@@ -69,11 +69,11 @@ const Layout = (props: Props) => {
 
   const render = (): React.JSX.Element => {
     let res: React.JSX.Element = (
-      <AntLayout className="bg-white" hasSider>
+      <AntLayout hasSider className="h-screen">
         <Menu />
-        <AntLayout className="bg-white">
+        <AntLayout>
           <Header />
-          <Content className="mx-8 my-4">
+          <Content className="mx-8 my-4 flex-1">
             <Outlet />
           </Content>
         </AntLayout>

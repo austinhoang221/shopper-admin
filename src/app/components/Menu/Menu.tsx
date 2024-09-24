@@ -22,11 +22,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Sider from "antd/es/layout/Sider";
 import { Link, useLocation } from "react-router-dom";
+import { useAppSelector } from "@hooks/reduxHooks";
 
 type Props = {};
 
 const Menu = (props: Props) => {
-  const [collapsed, setCollapsed] = React.useState(false);
+  const { isMenuExpand } = useAppSelector((state) => state.common);
   const location = useLocation();
   const items: MenuProps["items"] = [
     {
@@ -217,11 +218,7 @@ const Menu = (props: Props) => {
     },
   ];
   return (
-    <Sider
-      collapsible
-      collapsed={collapsed}
-      onCollapse={(value) => setCollapsed(value)}
-    >
+    <Sider collapsible collapsed={isMenuExpand} trigger={null}>
       <h1 className="text-white leading-[56px] text-center">Logo</h1>
       <AntMenu
         theme="dark"

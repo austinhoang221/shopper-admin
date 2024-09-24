@@ -10,12 +10,15 @@ import {
   faListAlt,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import "./Product.scss";
+import { useTableScroll } from "@hooks/tableHook/useTableHook";
 
 type Props = {};
 
 const Product = (props: Props) => {
   const [products, setProducts] = React.useState<DataType[]>([]);
+  const [isLoading, setIsLoading] = React.useState<boolean>(true);
+  const { tableRef, scroll } = useTableScroll();
   interface DataType {
     key: React.Key;
     img: string;
@@ -62,6 +65,7 @@ const Product = (props: Props) => {
 
   React.useEffect(() => {
     createFakeData();
+    setIsLoading(false);
   }, []);
 
   const columns: TableColumnsType<DataType> = [
@@ -83,7 +87,7 @@ const Product = (props: Props) => {
     },
     {
       title: "Name",
-      width: 150,
+      width: 120,
       dataIndex: "name",
       key: "name",
       align: "left",
@@ -142,7 +146,7 @@ const Product = (props: Props) => {
       title: "Description",
       dataIndex: "txdesc",
       key: "txdesc",
-      width: 200,
+      width: 250,
       align: "left",
       sorter: (a, b) => a.txdesc.length - b.txdesc.length,
     },
@@ -156,9 +160,9 @@ const Product = (props: Props) => {
   ];
 
   return (
-    <>
+    <div className="product">
       <Title level={3}>Product Management</Title>
-      <div className="flex items-center justify-between mb-2">
+      <div className="flex items-center justify-between mb-4">
         <Search
           placeholder="Search by name or code"
           style={{ width: 300 }}
@@ -189,12 +193,14 @@ const Product = (props: Props) => {
         </div>
       </div>
       <Table
+        ref={tableRef}
+        rowSelection={{}}
         columns={columns}
         dataSource={products}
-        scroll={{ y: 400 }}
-        sticky={{ offsetHeader: 64 }}
+        loading={isLoading}
+        scroll={scroll}
       />
-    </>
+    </div>
   );
 };
 
