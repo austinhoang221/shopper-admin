@@ -51,7 +51,7 @@ export const useTableScroll = (
     )[0] as HTMLDivElement;
     if (!tableBody) return;
 
-    tableBody.style.height = scrollY ? `${scrollY}px` : "20vh";
+    tableBody.style.height = scrollY ? `${scrollY}px` : "auto";
     // tableBody.style.overflow = tableBody.style.overflow.replace("scroll", "auto");
   }, [scrollY]);
 

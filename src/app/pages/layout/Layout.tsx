@@ -4,8 +4,8 @@ import { Layout as AntLayout, message } from "antd";
 import { Content } from "antd/es/layout/layout";
 import ServerError from "@pages/serverError/serverError";
 import NotFound from "@pages/notfound/NotFound";
-import Menu from "@components/menu/Menu";
-import Header from "@components/header/Header";
+import Menu from "@components/Menu/Menu";
+import Header from "@components/Header/Header";
 
 type Props = {};
 
