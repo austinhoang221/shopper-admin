@@ -9,7 +9,7 @@ export const useTableScroll = (
   stretchByPage: boolean = true,
   delay: number = 50
 ): UseTableScroll => {
-  const [scrollY, setScrollY] = React.useState<number | undefined>();
+  const [scrollY, setScrollY] = React.useState<number | undefined>(0);
   const tableRef = React.useRef<TableRef>(null);
 
   const calcScrollY = () => {
@@ -51,7 +51,7 @@ export const useTableScroll = (
     )[0] as HTMLDivElement;
     if (!tableBody) return;
 
-    tableBody.style.height = `${scrollY}px`;
+    tableBody.style.height = scrollY ? `${scrollY}px` : "20vh";
     // tableBody.style.overflow = tableBody.style.overflow.replace("scroll", "auto");
   }, [scrollY]);
 

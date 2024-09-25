@@ -12,6 +12,7 @@ import {
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import datas from "./DummyData";
+import { useTableScroll } from "@hooks/tableHook/useTableHook";
 
 export interface DataType {
   key: React.ReactNode;
@@ -27,9 +28,7 @@ type TableRowSelection<T extends object = object> =
   TableProps<T>["rowSelection"];
 
 const ProductCategory = () => {
-  const [checkStrictly, setCheckStrictly] = useState(false);
-
-  
+  const { tableRef, scroll } = useTableScroll();
 
   const columns: TableColumnsType<DataType> = [
     {
@@ -46,6 +45,7 @@ const ProductCategory = () => {
           {featured ? <Badge status="success" /> : <Badge status="error" />}
         </Space>
       ),
+      align: "center",
     },
     {
       title: "Products",
@@ -98,7 +98,7 @@ const ProductCategory = () => {
   return (
     <>
       <Title level={3}>Product Category Management</Title>
-      <div className="flex items-center justify-between mb-2">
+      <div className="flex items-center justify-between mb-4">
         <Search
           placeholder="Search by name or code"
           style={{ width: 300 }}
@@ -128,21 +128,15 @@ const ProductCategory = () => {
           </Tooltip>
         </div>
       </div>
-      <Space align="center" style={{ marginBottom: 16 }}>
-        CheckStrictly:{" "}
-        <Switch checked={checkStrictly} onChange={setCheckStrictly} />
-      </Space>
       <Table<DataType>
+        ref={tableRef}
+        scroll={scroll}
         columns={columns}
-        rowSelection={{ ...rowSelection, checkStrictly }}
+        rowSelection={{ ...rowSelection, checkStrictly: true }}
         dataSource={datas}
-        scroll={{ y: 400 }}
-        sticky={{ offsetHeader: 64 }}
       />
     </>
   );
 };
 
 export default ProductCategory;
-
-

@@ -194,11 +194,11 @@ const Product = (props: Props) => {
       </div>
       <Table
         ref={tableRef}
+        scroll={scroll}
         rowSelection={{}}
         columns={columns}
         dataSource={products}
         loading={isLoading}
-        scroll={scroll}
       />
     </div>
   );

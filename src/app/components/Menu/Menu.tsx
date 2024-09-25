@@ -23,11 +23,22 @@ import {
 import Sider from "antd/es/layout/Sider";
 import { Link, useLocation } from "react-router-dom";
 import { useAppSelector } from "@hooks/reduxHooks";
-
+import "./Menu.scss";
 type Props = {};
 
+const siderStyle: React.CSSProperties = {
+  overflowY: "auto",
+  scrollbarWidth: "none",
+  position: "fixed",
+  top: 0,
+  bottom: 0,
+  width: "200px",
+  // height: `calc(100% - 72px)`,
+  msOverflowStyle: "none",
+};
+
 const Menu = (props: Props) => {
-  const { isMenuExpand } = useAppSelector((state) => state.common);
+  // const { isMenuExpand } = useAppSelector((state) => state.common);
   const location = useLocation();
   const items: MenuProps["items"] = [
     {
@@ -238,13 +249,14 @@ const Menu = (props: Props) => {
     },
   ];
   return (
-    <Sider collapsible collapsed={isMenuExpand} trigger={null}>
-      <h1 className="text-white leading-[56px] text-center">Logo</h1>
+    <Sider>
+      {/* <h1 className="text-white leading-[56px] text-center">Logo</h1> */}
       <AntMenu
         theme="dark"
+        style={siderStyle}
         mode="inline"
         items={items}
-        className="px-2"
+        // className={`px-2 ${isMenuExpand ? "isMenuExpand" : ""}`}
         selectedKeys={[location.pathname.split("/").pop()!]}
       />
     </Sider>

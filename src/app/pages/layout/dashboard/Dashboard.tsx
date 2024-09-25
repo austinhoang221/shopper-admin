@@ -394,7 +394,7 @@ const Dashboard = (props: Props) => {
         </Col>
       </Row>
       <Row gutter={[24, 0]}>
-        <Col xs={24} sm={24} md={12} lg={12} xl={10} className="mb-24">
+        <Col xs={24} sm={24} md={12} lg={12} xl={10} className="mb-4">
           <Card bordered={false} className="criclebox h-full">
             <div id="chart">
               <ReactApexChart
@@ -427,7 +427,7 @@ const Dashboard = (props: Props) => {
             </div>
           </Card>
         </Col>
-        <Col xs={24} sm={24} md={12} lg={12} xl={14} className="mb-24">
+        <Col xs={24} sm={24} md={12} lg={12} xl={14} className="mb-4">
           <Card bordered={false} className="criclebox h-full">
             <div className="linechart">
               <div>
@@ -450,14 +450,12 @@ const Dashboard = (props: Props) => {
         </Col>
       </Row>
 
-      <Row  gutter={16} >
+      <Row gutter={16}>
         <Col span={16}>
           <Card hoverable bordered={false} className="criclebox h-full">
             <div>
               <Title level={5}>Top customer</Title>
-              <Paragraph className="lastweek">
-                in this month
-              </Paragraph>
+              <Paragraph className="lastweek">in this month</Paragraph>
             </div>
             <Table<DataType> columns={columns} dataSource={data} />
           </Card>
