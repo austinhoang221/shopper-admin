@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    overflow-y: hidden;
+}
+
+main {
+    overflow-y: auto;
+    max-height: 100vh;
+    padding: 20px;
+    margin: 0 !important;
+}

@@ -30,18 +30,16 @@ const Header = (props: Props) => {
     },
   ];
   return (
-    <>
-      <AntHeader className="px-4 bg-[#f5f5f5] sticky top-0 h-[56px] flex items-center justify-between z-10 border-b-[1px]">
-        <div>
-          <Button type="text" onClick={() => dispatch(updateIsMenuExpand())}>
-            <FontAwesomeIcon icon={faBars} />
-          </Button>
-        </div>
-        <Dropdown menu={{ items }} placement="bottomLeft">
-          <Button type="text" icon={<FontAwesomeIcon icon={faUser} />}></Button>
-        </Dropdown>
-      </AntHeader>
-    </>
+    <AntHeader className="px-4 bg-[#f5f5f5] sticky top-0 h-[56px] flex items-center justify-between z-10 border-b-[1px]">
+      <div>
+        <Button type="text" onClick={() => dispatch(updateIsMenuExpand())}>
+          <FontAwesomeIcon icon={faBars} />
+        </Button>
+      </div>
+      <Dropdown menu={{ items }} placement="bottomLeft">
+        <Button type="text" icon={<FontAwesomeIcon icon={faUser} />}></Button>
+      </Dropdown>
+    </AntHeader>
   );
 };
 

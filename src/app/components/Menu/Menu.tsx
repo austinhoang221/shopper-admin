@@ -26,6 +26,16 @@ import { useAppSelector } from "@hooks/reduxHooks";
 
 type Props = {};
 
+const siderStyle: React.CSSProperties = {
+  overflowY: "auto",
+  scrollbarWidth: "none",
+  position: "sticky",
+  top: 0,
+  left: 0,
+  height: `100vh`,
+  msOverflowStyle: "none",
+};
+
 const Menu = (props: Props) => {
   const { isMenuExpand } = useAppSelector((state) => state.common);
   const location = useLocation();
@@ -238,13 +248,13 @@ const Menu = (props: Props) => {
     },
   ];
   return (
-    <Sider collapsible collapsed={isMenuExpand} trigger={null}>
+    <Sider collapsible collapsed={isMenuExpand} trigger={null} width={200}>
       <h1 className="text-white leading-[56px] text-center">Logo</h1>
       <AntMenu
         theme="dark"
+        style={siderStyle}
         mode="inline"
         items={items}
-        className="px-2"
         selectedKeys={[location.pathname.split("/").pop()!]}
       />
     </Sider>

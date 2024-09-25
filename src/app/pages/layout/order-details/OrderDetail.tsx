@@ -10,6 +10,7 @@ import {
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { faker } from "@faker-js/faker";
+import { useTableScroll } from "@hooks/tableHook/useTableHook";
 
 interface DataType {
   key: React.Key;
@@ -23,10 +24,13 @@ interface DataType {
   deliveryStatus: string;
 }
 
-const getRandomElement = (arr: string[]) => arr[Math.floor(Math.random() * arr.length)];
+const getRandomElement = (arr: string[]) =>
+  arr[Math.floor(Math.random() * arr.length)];
 
 const OrderDetail = () => {
   const [datas, setDatas] = React.useState<DataType[]>([]);
+  const [isLoading, setIsLoading] = React.useState<boolean>(true);
+  const { tableRef, scroll } = useTableScroll();
 
   const createFakeData = () => {
     const arr: DataType[] = [];
@@ -36,11 +40,15 @@ const OrderDetail = () => {
         orderId: faker.string.uuid(),
         customerName: faker.person.fullName(),
         nickname: faker.internet.userName(),
-        deliveryDate: faker.date.future().toISOString().split('T')[0],
-        pricingPolicy: getRandomElement(['Standard', 'Premium']),
+        deliveryDate: faker.date.future().toISOString().split("T")[0],
+        pricingPolicy: getRandomElement(["Standard", "Premium"]),
         deliveryFee: faker.commerce.price({ min: 10, max: 50 }) + "€",
-        paymentStatus: getRandomElement(['Complete', 'Bank Transfer', 'Pending']),
-        deliveryStatus: getRandomElement(['Complete', 'Preparing', 'Shipped']),
+        paymentStatus: getRandomElement([
+          "Complete",
+          "Bank Transfer",
+          "Pending",
+        ]),
+        deliveryStatus: getRandomElement(["Complete", "Preparing", "Shipped"]),
       });
     }
     setDatas(arr);
@@ -48,6 +56,7 @@ const OrderDetail = () => {
 
   React.useEffect(() => {
     createFakeData();
+    setIsLoading(false);
   }, []);
 
   const columns = [
@@ -105,8 +114,8 @@ const OrderDetail = () => {
 
   return (
     <>
-      <Title level={3}>Product Management</Title>
-      <div className="flex items-center justify-between mb-2">
+      <Title level={3}>Order Detail</Title>
+      <div className="flex items-center justify-between mb-4">
         <Search
           placeholder="Search by name or code"
           style={{ width: 300 }}
@@ -137,10 +146,11 @@ const OrderDetail = () => {
         </div>
       </div>
       <Table
+        ref={tableRef}
+        scroll={scroll}
         columns={columns}
+        loading={isLoading}
         dataSource={datas}
-        scroll={{ y: 400 }}
-        sticky={{ offsetHeader: 64 }}
       />
     </>
   );

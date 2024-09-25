@@ -1,11 +1,11 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Header from "../../components/Header/Header";
 import { Layout as AntLayout, message } from "antd";
 import { Content } from "antd/es/layout/layout";
-import Menu from "@components/Menu/Menu";
 import ServerError from "@pages/serverError/serverError";
 import NotFound from "@pages/notfound/NotFound";
+import Menu from "@components/menu/Menu";
+import Header from "@components/header/Header";
 
 type Props = {};
 
@@ -69,7 +69,7 @@ const Layout = (props: Props) => {
 
   const render = (): React.JSX.Element => {
     let res: React.JSX.Element = (
-      <AntLayout hasSider className="h-screen">
+      <AntLayout hasSider className="h-full flex-1 relative">
         <Menu />
         <AntLayout>
           <Header />
