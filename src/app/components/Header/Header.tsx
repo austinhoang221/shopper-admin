@@ -4,11 +4,12 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Dropdown, Layout, MenuProps } from "antd";
+import { Button, Dropdown, Layout, MenuProps, Typography } from "antd";
 import "./Header.scss";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@hooks/reduxHooks";
 import { updateIsMenuExpand } from "reduxConfig/commonSlice";
+import Title from "antd/es/typography/Title";
 type Props = {};
 
 const AntHeader = Layout.Header;

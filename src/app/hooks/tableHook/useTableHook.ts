@@ -55,5 +55,5 @@ export const useTableScroll = (
     // tableBody.style.overflow = tableBody.style.overflow.replace("scroll", "auto");
   }, [scrollY]);
 
-  return { tableRef, scroll: { x: 1200, y: scrollY } };
+  return { tableRef, scroll: { y: scrollY } };
 };

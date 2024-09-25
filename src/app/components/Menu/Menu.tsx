@@ -23,7 +23,7 @@ import {
 import Sider from "antd/es/layout/Sider";
 import { Link, useLocation } from "react-router-dom";
 import { useAppSelector } from "@hooks/reduxHooks";
-
+import "./Menu.scss";
 type Props = {};
 
 const siderStyle: React.CSSProperties = {

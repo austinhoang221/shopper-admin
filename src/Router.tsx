@@ -10,6 +10,9 @@ import UnSupported from "@pages/unsupported/UnSupported";
 import UnAuthorized from "@pages/unauthorized/UnAuthorized";
 import ProductCategory from "@pages/layout/product-category/ProductCategory";
 import OrderDetail from "@pages/layout/order-details/OrderDetail";
+import Customer from "@pages/layout/partner/customer/Customer";
+import Carrier from "@pages/layout/partner/carrier/Carrier";
+import Supplier from "@pages/layout/partner/supplier/Supplier";
 
 function Router() {
   return (
@@ -31,6 +34,9 @@ function Router() {
               <Route path="/product" element={<Product />} />
               <Route path="/category" element={<ProductCategory />} />
               <Route path="/order/order-details" element={<OrderDetail />} />
+              <Route path="/partner/partner-customer" element={<Customer />} />
+              <Route path="/partner/partner-suppliers" element={<Supplier />} />
+              <Route path="/partner/partner-carrier" element={<Carrier />} />
               <Route path="*" element={<UnSupported />} />
             </Route>
           </Route>

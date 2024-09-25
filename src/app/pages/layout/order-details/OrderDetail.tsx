@@ -1,5 +1,13 @@
 import React from "react";
-import { Table, Button, Tooltip } from "antd";
+import {
+  Table,
+  Button,
+  Tooltip,
+  Space,
+  Badge,
+  Tag,
+  TableColumnsType,
+} from "antd";
 import Title from "antd/es/typography/Title";
 import Search from "antd/es/input/Search";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -35,12 +43,18 @@ const OrderDetail = () => {
   const createFakeData = () => {
     const arr: DataType[] = [];
     for (let i = 0; i < 100; i++) {
+      const date = faker.date.past();
+      const formattedDate = date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      });
       arr.push({
         key: i,
         orderId: faker.string.uuid(),
         customerName: faker.person.fullName(),
         nickname: faker.internet.userName(),
-        deliveryDate: faker.date.future().toISOString().split("T")[0],
+        deliveryDate: formattedDate.toString(),
         pricingPolicy: getRandomElement(["Standard", "Premium"]),
         deliveryFee: faker.commerce.price({ min: 10, max: 50 }) + "€",
         paymentStatus: getRandomElement([
@@ -59,57 +73,109 @@ const OrderDetail = () => {
     setIsLoading(false);
   }, []);
 
-  const columns = [
+  const columns: TableColumnsType<DataType> = [
     {
       title: "Order ID",
       dataIndex: "orderId",
       key: "orderId",
+      width: 200,
     },
     {
       title: "Customer Name",
       dataIndex: "customerName",
       key: "customerName",
+      width: 200,
     },
     {
       title: "Nickname",
       dataIndex: "nickname",
       key: "nickname",
+      width: 150,
     },
     {
       title: "Delivery Date",
       dataIndex: "deliveryDate",
       key: "deliveryDate",
+      align: "center",
+      width: 150,
     },
     {
-      title: "Pricing Policy",
+      title: "Pricing",
       dataIndex: "pricingPolicy",
       key: "pricingPolicy",
+      align: "center",
+      width: 100,
+      render: (pricingPolicy: any) => (
+        <Space>
+          <Tag color={pricingPolicy === "Premium" ? "success" : "default"}>
+            {pricingPolicy}
+          </Tag>
+        </Space>
+      ),
     },
     {
       title: "Delivery Fee",
       dataIndex: "deliveryFee",
       key: "deliveryFee",
+      width: 120,
+      align: "right",
     },
     {
       title: "Payment Status",
       dataIndex: "paymentStatus",
       key: "paymentStatus",
+      align: "center",
+      width: 150,
+      render: (paymentStatus: any) => (
+        <Space>
+          <Tag
+            color={
+              paymentStatus === "Complete"
+                ? "success"
+                : paymentStatus === "Pending"
+                ? "processing"
+                : "default"
+            }
+          >
+            {paymentStatus}
+          </Tag>
+        </Space>
+      ),
     },
     {
       title: "Delivery Status",
       dataIndex: "deliveryStatus",
       key: "deliveryStatus",
-    },
-    {
-      title: "Actions",
-      key: "actions",
-      render: () => (
-        <>
-          <Button type="link">Open Documentation</Button>
-          <Button type="link">Setup Details</Button>
-        </>
+      align: "center",
+      width: 130,
+      render: (deliveryStatus: any) => (
+        <Space>
+          <Tag
+            color={
+              deliveryStatus === "Complete"
+                ? "success"
+                : deliveryStatus === "Preparing"
+                ? "processing"
+                : "default"
+            }
+          >
+            {deliveryStatus}
+          </Tag>
+        </Space>
       ),
     },
+    // {
+    //   title: "Actions",
+    //   key: "actions",
+    //   width: 150,
+    //   align: "center",
+    //   render: () => (
+    //     <>
+    //       <Button type="link">Documentation</Button>
+    //       <Button type="link">Setup</Button>
+    //     </>
+    //   ),
+    // },
   ];
 
   return (

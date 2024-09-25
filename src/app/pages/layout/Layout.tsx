@@ -73,7 +73,7 @@ const Layout = (props: Props) => {
         <Menu />
         <AntLayout>
           <Header />
-          <Content className="mx-8 my-4 flex-1">
+          <Content className="mx-8 my-4 ">
             <Outlet />
           </Content>
         </AntLayout>

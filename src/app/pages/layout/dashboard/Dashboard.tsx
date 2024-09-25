@@ -9,7 +9,7 @@ import {
   Timeline,
   Typography,
 } from "antd";
-import type { TableProps, TabsProps } from "antd";
+import type { TableProps } from "antd";
 import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 import "./Dashboard.scss";

@@ -64,18 +64,18 @@ const ProductCategory = () => {
       key: "active",
       render: (active: any) => <Switch checked={active} />,
     },
-    {
-      title: "Actions",
-      key: "actions",
-      render: () => (
-        <Space>
-          <Button icon={<EditOutlined />}>Edit</Button>
-          <Button icon={<DeleteOutlined />} danger>
-            Delete
-          </Button>
-        </Space>
-      ),
-    },
+    // {
+    //   title: "Actions",
+    //   key: "actions",
+    //   render: () => (
+    //     <Space>
+    //       <Button icon={<EditOutlined />}>Edit</Button>
+    //       <Button icon={<DeleteOutlined />} danger>
+    //         Delete
+    //       </Button>
+    //     </Space>
+    //   ),
+    // },
   ];
 
   // rowSelection objects indicates the need for row selection
