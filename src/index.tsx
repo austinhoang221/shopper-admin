@@ -10,7 +10,7 @@ const rootElement = (
     theme={{
       token: {
         colorLink: "#1677ff",
-        colorPrimary: "#129496",
+        colorPrimary: "#AAB396",
         colorInfo: "#129496",
       },
     }}
