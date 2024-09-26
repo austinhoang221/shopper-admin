@@ -9,12 +9,14 @@ import {
   faExchange,
   faFileEdit,
   faFileInvoiceDollar,
+  faGear,
   faHome,
   faInbox,
   faLanguage,
   faPaste,
   faPersonCane,
   faReplyAll,
+  faSliders,
   faTh,
   faUserAlt,
   faUserFriends,
@@ -238,13 +240,33 @@ const Menu = (props: Props) => {
       ],
     },
     {
-      key: "i18n",
+      key: "setting",
       label: (
-        <Link to="/i18n">
-          <span className="ml-2">Languages</span>
+        <Link to="/setting">
+          <span className="ml-2">Setting</span>
         </Link>
       ),
-      icon: <FontAwesomeIcon icon={faLanguage} />,
+      icon: <FontAwesomeIcon icon={faSliders} />,
+      children: [
+        {
+          key: "config",
+          label: (
+            <Link to="/setting/config">
+              <span className="ml-2">Config</span>
+            </Link>
+          ),
+          icon: <FontAwesomeIcon icon={faGear} />,
+        },
+        {
+          key: "i18n",
+          label: (
+            <Link to="/setting/i18n">
+              <span className="ml-2">Languages</span>
+            </Link>
+          ),
+          icon: <FontAwesomeIcon icon={faLanguage} />,
+        },
+      ],
     },
   ];
   return (
