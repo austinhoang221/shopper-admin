@@ -22,6 +22,7 @@ const Layout = (props: Props) => {
       content: message,
     });
   };
+
   React.useEffect(() => {
     const handleShowServerErrorPage = () => {
       if (localStorage.getItem("IsServerError") === "true") {

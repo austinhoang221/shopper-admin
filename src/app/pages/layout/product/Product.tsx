@@ -12,12 +12,15 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./Product.scss";
 import { useTableScroll } from "@hooks/tableHook/useTableHook";
+import { useNavigate } from "react-router-dom";
+import ProductDrawer from "./drawer/ProductDrawer";
 
 type Props = {};
 
 const Product = (props: Props) => {
   const [products, setProducts] = React.useState<DataType[]>([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
+  const navigate = useNavigate();
   const { tableRef, scroll } = useTableScroll();
   interface DataType {
     key: React.Key;
@@ -37,7 +40,7 @@ const Product = (props: Props) => {
   const createFakeData = () => {
     const arr: DataType[] = [];
     for (let i = 0; i < 100; i++) {
-      const units = ["piece", "box", "pack", "set"];
+      const units = ["Piece", "Box", "Pack", "Set"];
       const unit = units[Math.floor(Math.random() * units.length)];
       const date = faker.date.past();
       const formattedDate = date.toLocaleDateString("en-US", {
@@ -171,7 +174,11 @@ const Product = (props: Props) => {
         />
         <div className="flex">
           <Tooltip title="Create">
-            <Button type="primary" className="mr-2">
+            <Button
+              type="primary"
+              className="mr-2"
+              onClick={() => navigate("create")}
+            >
               <FontAwesomeIcon icon={faPlus} />
             </Button>
           </Tooltip>
@@ -200,6 +207,7 @@ const Product = (props: Props) => {
         dataSource={products}
         loading={isLoading}
       />
+      <ProductDrawer />
     </div>
   );
 };

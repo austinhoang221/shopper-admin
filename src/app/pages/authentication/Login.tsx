@@ -27,6 +27,7 @@ const Login = (props: Props) => {
         id: response.id,
         token: response.accessToken,
       };
+      localStorage.setItem("user", Context.user);
       navigate("/");
     } catch (error) {
       messageApi.open({

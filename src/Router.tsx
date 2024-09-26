@@ -31,7 +31,11 @@ function Router() {
             <Route>
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/product" element={<Product />} />
+              <Route path="/product" element={<Product />}>
+                <Route path=":config/:id?" />
+                <Route />
+              </Route>
+
               <Route path="/category" element={<ProductCategory />} />
               <Route path="/order/order-details" element={<OrderDetail />} />
               <Route path="/partner/partner-customer" element={<Customer />} />
