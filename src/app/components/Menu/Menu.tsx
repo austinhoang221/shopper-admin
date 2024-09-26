@@ -17,6 +17,7 @@ import {
   faPersonCane,
   faReplyAll,
   faSliders,
+  faTags,
   faTh,
   faUserAlt,
   faUserFriends,
@@ -256,6 +257,15 @@ const Menu = (props: Props) => {
             </Link>
           ),
           icon: <FontAwesomeIcon icon={faGear} />,
+        },
+        {
+          key: "tags",
+          label: (
+            <Link to="/setting/tags">
+              <span className="ml-2">Tags</span>
+            </Link>
+          ),
+          icon: <FontAwesomeIcon icon={faTags} />,
         },
         {
           key: "i18n",

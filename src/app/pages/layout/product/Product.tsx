@@ -1,5 +1,14 @@
-import { Button, Table, TableColumnsType, Tooltip, Image } from "antd";
-import React from "react";
+import {
+  Button,
+  Table,
+  TableColumnsType,
+  Tooltip,
+  Image,
+  Popover,
+  CheckboxOptionType,
+  Checkbox,
+} from "antd";
+import React, { useState } from "react";
 import { faker } from "@faker-js/faker";
 import Title from "antd/es/typography/Title";
 import Search from "antd/es/input/Search";
@@ -16,12 +25,12 @@ import { useNavigate } from "react-router-dom";
 import ProductDrawer from "./drawer/ProductDrawer";
 
 type Props = {};
-
 const Product = (props: Props) => {
   const [products, setProducts] = React.useState<DataType[]>([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
   const navigate = useNavigate();
   const { tableRef, scroll } = useTableScroll();
+  const [open, setOpen] = useState(false);
   interface DataType {
     key: React.Key;
     img: string;
@@ -75,6 +84,7 @@ const Product = (props: Props) => {
     {
       title: "Image",
       width: 150,
+      key: "img",
       align: "center",
       render: (item: DataType) => (
         <Image width={100} src={item.img} height={100} />
@@ -162,6 +172,28 @@ const Product = (props: Props) => {
     },
   ];
 
+  const defaultCheckedList = columns.map((item) => item.key);
+  const [checkedList, setCheckedList] = useState(defaultCheckedList);
+  const [newColumns, setNewColumns] = useState(columns);
+
+  const options = columns.map(({ key, title }) => ({
+    value: key,
+    label: title,
+  }));
+
+  const handleOpenChange = (newOpen: boolean) => {
+    setOpen(newOpen);
+  };
+
+  const hide = () => {
+    const updatedColumns = columns.map(item => ({
+      ...item,
+      hidden: !checkedList.includes(item.key as string),
+    }));
+    setNewColumns(updatedColumns);
+    setOpen(false);
+  };
+
   return (
     <div className="product">
       <Title level={3}>Product Management</Title>
@@ -193,9 +225,30 @@ const Product = (props: Props) => {
             </Button>
           </Tooltip>
           <Tooltip title="Config">
-            <Button className="mr-2">
-              <FontAwesomeIcon icon={faListAlt} />
-            </Button>
+            <Popover
+              placement="bottomRight"
+              content={
+                <>
+                  <Checkbox.Group
+                    style={{ width: "300px" }}
+                    value={checkedList}
+                    options={options as  CheckboxOptionType[]}
+                    onChange={(value) => {
+                      setCheckedList(value as string[]);
+                    }}
+                  /><br/>
+                  <Button onClick={hide}>Apply</Button>
+                </>
+              }
+              title="Title"
+              trigger="click"
+              open={open}
+              onOpenChange={handleOpenChange}
+            >
+              <Button className="mr-2">
+                <FontAwesomeIcon icon={faListAlt} />
+              </Button>
+            </Popover>
           </Tooltip>
         </div>
       </div>
@@ -203,7 +256,7 @@ const Product = (props: Props) => {
         ref={tableRef}
         scroll={scroll}
         rowSelection={{}}
-        columns={columns}
+        columns={newColumns}
         dataSource={products}
         loading={isLoading}
       />

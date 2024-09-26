@@ -14,6 +14,8 @@ import Customer from "@pages/layout/partner/customer/Customer";
 import Carrier from "@pages/layout/partner/carrier/Carrier";
 import Supplier from "@pages/layout/partner/supplier/Supplier";
 import TransactionOrder from "@pages/layout/transactions/transaction-order/transaction-order-drawer/TransactionOrder";
+import ReportSale from "@pages/layout/report/sale/report-sale";
+import Tags from "@pages/layout/setting/tags/tags";
 
 function Router() {
   return (
@@ -42,10 +44,12 @@ function Router() {
               <Route path="/partner/partner-customer" element={<Customer />} />
               <Route path="/partner/partner-suppliers" element={<Supplier />} />
               <Route path="/partner/partner-carrier" element={<Carrier />} />
+              <Route path="/setting/tags" element={<Tags />} />
               <Route
                 path="/transaction/transaction-order"
                 element={<TransactionOrder />}
               />
+              <Route path="/report/report-sale" element={<ReportSale />} />
               <Route path="*" element={<UnSupported />} />
             </Route>
           </Route>
