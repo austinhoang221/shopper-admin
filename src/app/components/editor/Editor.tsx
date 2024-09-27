@@ -10,7 +10,6 @@ import {
   Link,
   List,
   MediaEmbed,
-  Paragraph,
   Table,
   Undo,
 } from "ckeditor5";
@@ -52,7 +51,6 @@ const Editor = (props: Props) => {
           Link,
           List,
           MediaEmbed,
-          Paragraph,
           Table,
           Undo,
         ],
