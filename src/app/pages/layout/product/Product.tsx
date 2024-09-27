@@ -1,4 +1,4 @@
-import { Button, Table, TableColumnsType, Tooltip, Image } from "antd";
+import { Button, Table, TableColumnsType, Tooltip, Image, message } from "antd";
 import React from "react";
 import { faker } from "@faker-js/faker";
 import Title from "antd/es/typography/Title";
@@ -21,10 +21,12 @@ const Product = (props: Props) => {
   const [products, setProducts] = React.useState<DataType[]>([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
   const navigate = useNavigate();
+  const [messageApi, contextHolder] = message.useMessage();
+
   const { tableRef, scroll } = useTableScroll();
   interface DataType {
     key: React.Key;
-    img: string;
+    // img: string;
     name: string;
     code: string;
     costprice: string;
@@ -50,11 +52,11 @@ const Product = (props: Props) => {
       });
       arr.push({
         key: faker.string.uuid(),
-        img: faker.image.url(),
+        // img: faker.image.url(),
         name: faker.commerce.product(),
         code: `PRO${i}`,
-        costprice: faker.commerce.price({ min: 10, max: 50 }) + "€",
-        sellingprice: faker.commerce.price({ min: 10, max: 50 }) + "€",
+        costprice: faker.commerce.price({ min: 10, max: 50 }),
+        sellingprice: faker.commerce.price({ min: 10, max: 50 }),
         stock: Math.floor(Math.random() * 10) + 1,
         supplier: faker.company.name(),
         createdt: formattedDate.toString(),
@@ -72,14 +74,14 @@ const Product = (props: Props) => {
   }, []);
 
   const columns: TableColumnsType<DataType> = [
-    {
-      title: "Image",
-      width: 150,
-      align: "center",
-      render: (item: DataType) => (
-        <Image width={100} src={item.img} height={100} />
-      ),
-    },
+    // {
+    //   title: "Image",
+    //   width: 150,
+    //   align: "center",
+    //   render: (item: DataType) => (
+    //     <Image width={100} src={item.img} height={100} />
+    //   ),
+    // },
     {
       title: "Code",
       width: 100,
@@ -104,6 +106,7 @@ const Product = (props: Props) => {
       width: 150,
       align: "right",
       sorter: (a, b) => a.costprice.length - b.costprice.length,
+      render: (text: string) => <span>{text}€</span>,
     },
     {
       title: "Selling price",
@@ -112,6 +115,7 @@ const Product = (props: Props) => {
       width: 150,
       align: "right",
       sorter: (a, b) => a.sellingprice.length - b.sellingprice.length,
+      render: (text: string) => <span>{text}€</span>,
     },
     {
       title: "Stock",
@@ -162,6 +166,16 @@ const Product = (props: Props) => {
     },
   ];
 
+  const onCreateItem = (data: A) => {
+    setIsLoading(true);
+    setProducts((prev) => [data, ...prev]);
+    messageApi.open({
+      type: "success",
+      content: "Successfully created a new product",
+    });
+    setIsLoading(false);
+  };
+
   return (
     <div className="product">
       <Title level={3}>Product Management</Title>
@@ -207,7 +221,8 @@ const Product = (props: Props) => {
         dataSource={products}
         loading={isLoading}
       />
-      <ProductDrawer />
+      <ProductDrawer onCreate={onCreateItem} />
+      {contextHolder}
     </div>
   );
 };

@@ -450,7 +450,7 @@ const Dashboard = (props: Props) => {
         </Col>
       </Row>
 
-      <Row gutter={16}>
+      <Row gutter={16} className="mb-4">
         <Col span={16}>
           <Card hoverable bordered={false} className="criclebox h-full">
             <div>

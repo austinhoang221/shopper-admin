@@ -19,14 +19,40 @@ import {
 import Title from "antd/es/typography/Title";
 import React, { ReactNode } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
-type Props = {};
+type FieldType = {
+  name: string;
+  code: string;
+  txdesc: string;
+  costprice: number;
+  sellingprice: number;
+  stock: number;
+  unit: string;
+  weight: number;
+  supplier: string;
+};
+type Props = {
+  onCreate: (data: FieldType) => void;
+};
 
 const ProductDrawer = (props: Props) => {
   const [isDrawerOpen, setIsDrawerOpen] = React.useState<boolean>(false);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+
   const params = useParams();
   const [form] = Form.useForm();
   const navigate = useNavigate();
+
+  const initialForm = {
+    name: "",
+    code: "",
+    txdesc: "",
+    costprice: 0,
+    sellingprice: 0,
+    stock: 0,
+    unit: "1",
+    weight: 0,
+    supplier: "1",
+  };
   const unitData = [
     {
       value: "1",
@@ -62,9 +88,10 @@ const ProductDrawer = (props: Props) => {
   const onRenderTitle = () => (
     <div className="flex justify-between mx-2">
       <Title level={4}>
-        {params?.config?.[0].toUpperCase() + params?.config?.substring(1)!}
+        {params?.config?.[0].toUpperCase() + params?.config?.substring(1)! ??
+          ""}
       </Title>
-      <Button onClick={onClose}>
+      <Button onClick={onClose} type="text">
         <FontAwesomeIcon icon={faXmark} />
       </Button>
     </div>
@@ -78,18 +105,29 @@ const ProductDrawer = (props: Props) => {
 
   const onFinish = async () => {
     try {
-      await form.validateFields();
+      const validate = await form.validateFields();
+      if (validate) {
+        setIsLoading(true);
+        setTimeout(() => {
+          props.onCreate(form.getFieldsValue());
+          onClose();
+          setIsLoading(false);
+        }, 1500);
+      }
     } catch (error) {
       console.error("Form validation error:", error);
     }
-    setIsDrawerOpen(false);
-    navigate("/product");
   };
 
   const onRenderFooter = (
     <div className="flex items-center justify-between">
       <Button onClick={() => onClose()}>Cancel</Button>
-      <Button htmlType="submit" type="primary">
+      <Button
+        loading={isLoading}
+        htmlType="submit"
+        type="primary"
+        onClick={onFinish}
+      >
         Save
       </Button>
     </div>
@@ -106,35 +144,35 @@ const ProductDrawer = (props: Props) => {
     >
       <Form
         form={form}
-        name="login"
-        initialValues={{ remember: true }}
+        name="form"
+        initialValues={initialForm}
         onFinish={onFinish}
       >
         <Row gutter={18}>
           <Col span={12}>
             <Card hoverable title="General Information">
-              <Form.Item
+              <Typography.Title level={5}>Code</Typography.Title>
+              <Form.Item<FieldType>
                 name="code"
+                required={true}
                 rules={[
                   { required: true, message: "Please input product code" },
                 ]}
               >
-                <Typography.Title level={5}>Code</Typography.Title>
                 <Input />
               </Form.Item>
-
-              <Form.Item
+              <Typography.Title level={5}>Name</Typography.Title>
+              <Form.Item<FieldType>
                 name="name"
+                required={true}
                 rules={[
                   { required: true, message: "Please input product name" },
                 ]}
               >
-                <Typography.Title level={5}>Name</Typography.Title>
                 <Input />
               </Form.Item>
-
-              <Form.Item name="txdesc">
-                <Typography.Title level={5}>Decsription</Typography.Title>
+              <Typography.Title level={5}>Decsription</Typography.Title>
+              <Form.Item<FieldType> name="txdesc">
                 <Editor />
               </Form.Item>
             </Card>
@@ -146,13 +184,14 @@ const ProductDrawer = (props: Props) => {
             <Card hoverable title="Pricing and Stock" className="mt-4">
               <Row gutter={18}>
                 <Col span={8}>
-                  <Form.Item
+                  <Typography.Title level={5}>Cost Price</Typography.Title>
+                  <Form.Item<FieldType>
                     name="costprice"
+                    required={true}
                     rules={[
                       { required: true, message: "Please input cost price" },
                     ]}
                   >
-                    <Typography.Title level={5}>Cost Price</Typography.Title>
                     <InputNumber<number>
                       className="w-full"
                       formatter={(value) =>
@@ -162,13 +201,14 @@ const ProductDrawer = (props: Props) => {
                   </Form.Item>
                 </Col>
                 <Col span={8}>
-                  <Form.Item
+                  <Typography.Title level={5}>Selling Price</Typography.Title>
+                  <Form.Item<FieldType>
                     name="sellingprice"
+                    required={true}
                     rules={[
                       { required: true, message: "Please input selling price" },
                     ]}
                   >
-                    <Typography.Title level={5}>Selling Price</Typography.Title>
                     <InputNumber<number>
                       className="w-full"
                       formatter={(value) =>
@@ -178,27 +218,32 @@ const ProductDrawer = (props: Props) => {
                   </Form.Item>
                 </Col>
                 <Col span={8}>
-                  <Form.Item name="stock">
-                    <Typography.Title level={5}>Stock</Typography.Title>
-                    <InputNumber<number> value={0} className="w-full" />
+                  <Typography.Title level={5}>Stock</Typography.Title>
+                  <Form.Item<FieldType> name="stock">
+                    <InputNumber<number> className="w-full" />
                   </Form.Item>
                 </Col>
               </Row>
               <Row gutter={18}>
                 <Col span={8}>
-                  <Form.Item
+                  <Typography.Title level={5}>Unit</Typography.Title>
+
+                  <Form.Item<FieldType>
                     name="unit"
+                    required={true}
                     rules={[
                       { required: true, message: "Please input product unit" },
                     ]}
                   >
-                    <Typography.Title level={5}>Unit</Typography.Title>
-                    <Select options={unitData} defaultValue={"1"}></Select>
+                    <Select options={unitData}></Select>
                   </Form.Item>
                 </Col>
                 <Col span={8}>
-                  <Form.Item
-                    name="name"
+                  <Typography.Title level={5}>Weight</Typography.Title>
+
+                  <Form.Item<FieldType>
+                    name="weight"
+                    required={true}
                     rules={[
                       {
                         required: true,
@@ -206,14 +251,14 @@ const ProductDrawer = (props: Props) => {
                       },
                     ]}
                   >
-                    <Typography.Title level={5}>Weight</Typography.Title>
-                    <InputNumber<number> value={0} className="w-full" />
+                    <InputNumber<number> className="w-full" />
                   </Form.Item>
                 </Col>
                 <Col span={8}>
-                  <Form.Item name="supplier">
-                    <Typography.Title level={5}>Supplier</Typography.Title>
-                    <Select options={supplierData} defaultValue={"1"}></Select>
+                  <Typography.Title level={5}>Supplier</Typography.Title>
+
+                  <Form.Item<FieldType> name="supplier">
+                    <Select options={supplierData}></Select>
                   </Form.Item>
                 </Col>
               </Row>

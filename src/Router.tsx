@@ -37,7 +37,9 @@ function Router() {
                 <Route />
               </Route>
 
-              <Route path="/category" element={<ProductCategory />} />
+              <Route path="/category" element={<ProductCategory />}>
+                <Route path=":config/:id?" />
+              </Route>
               <Route path="/order/order-details" element={<OrderDetail />} />
               <Route path="/partner/partner-customer" element={<Customer />} />
               <Route path="/partner/partner-suppliers" element={<Supplier />} />
