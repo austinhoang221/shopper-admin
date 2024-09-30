@@ -9,12 +9,15 @@ import {
   faExchange,
   faFileEdit,
   faFileInvoiceDollar,
+  faGear,
   faHome,
   faInbox,
   faLanguage,
   faPaste,
   faPersonCane,
   faReplyAll,
+  faSliders,
+  faTags,
   faTh,
   faUserAlt,
   faUserFriends,
@@ -66,26 +69,6 @@ const Menu = (props: Props) => {
         </Link>
       ),
       icon: <FontAwesomeIcon icon={faTh} />,
-    },
-    {
-      key: "order",
-      label: (
-        <Link to="/order">
-          <span className="ml-2">Order Management</span>
-        </Link>
-      ),
-      icon: <FontAwesomeIcon icon={faUserTie} />,
-      children: [
-        {
-          key: "order-details",
-          label: (
-            <Link to="/order/order-details">
-              <span className="ml-2">Order Detail</span>
-            </Link>
-          ),
-          icon: <FontAwesomeIcon icon={faUserAlt} />,
-        },
-      ],
     },
     {
       key: "transaction",
@@ -181,70 +164,99 @@ const Menu = (props: Props) => {
         },
       ],
     },
+    // {
+    //   key: "report",
+    //   label: (
+    //     <Link to="/report">
+    //       <span className="ml-2">Report</span>
+    //     </Link>
+    //   ),
+    //   icon: <FontAwesomeIcon icon={faChartLine} />,
+    //   children: [
+    //     {
+    //       key: "report-end-of-day",
+    //       label: (
+    //         <Link to="/report/report-end-of-day">
+    //           <span className="ml-2">End of day</span>
+    //         </Link>
+    //       ),
+    //       icon: <FontAwesomeIcon icon={faChartPie} />,
+    //     },
+    //     {
+    //       key: "report-sale",
+    //       label: (
+    //         <Link to="/report/report-sale">
+    //           <span className="ml-2">Sale</span>
+    //         </Link>
+    //       ),
+    //       icon: <FontAwesomeIcon icon={faPaste} />,
+    //     },
+    //     {
+    //       key: "report-product",
+    //       label: (
+    //         <Link to="/report/report-product">
+    //           <span className="ml-2">Product</span>
+    //         </Link>
+    //       ),
+    //       icon: <FontAwesomeIcon icon={faCubes} />,
+    //     },
+    //     {
+    //       key: "report-customer",
+    //       label: (
+    //         <Link to="/report/report-customer">
+    //           <span className="ml-2">Customer</span>
+    //         </Link>
+    //       ),
+    //       icon: <FontAwesomeIcon icon={faUserAlt} />,
+    //     },
+    //     {
+    //       key: "report-supplier",
+    //       label: (
+    //         <Link to="/report/report-supplier">
+    //           <span className="ml-2">Supplier</span>
+    //         </Link>
+    //       ),
+    //       icon: <FontAwesomeIcon icon={faUserFriends} />,
+    //     },
+    //   ],
+    // },
     {
-      key: "report",
+      key: "setting",
       label: (
-        <Link to="/report">
-          <span className="ml-2">Report</span>
+        <Link to="/setting">
+          <span className="ml-2">Setting</span>
         </Link>
       ),
-      icon: <FontAwesomeIcon icon={faChartLine} />,
+      icon: <FontAwesomeIcon icon={faSliders} />,
       children: [
         {
-          key: "report-end-of-day",
+          key: "config",
           label: (
-            <Link to="/report/report-end-of-day">
-              <span className="ml-2">End of day</span>
+            <Link to="/setting/config">
+              <span className="ml-2">Config</span>
             </Link>
           ),
-          icon: <FontAwesomeIcon icon={faChartPie} />,
+          icon: <FontAwesomeIcon icon={faGear} />,
         },
         {
-          key: "report-sale",
+          key: "tags",
           label: (
-            <Link to="/report/report-sale">
-              <span className="ml-2">Sale</span>
+            <Link to="/setting/tags">
+              <span className="ml-2">Tags</span>
             </Link>
           ),
-          icon: <FontAwesomeIcon icon={faPaste} />,
+          icon: <FontAwesomeIcon icon={faTags} />,
         },
         {
-          key: "report-product",
+          key: "i18n",
           label: (
-            <Link to="/report/report-product">
-              <span className="ml-2">Product</span>
+            <Link to="/setting/i18n">
+              <span className="ml-2">Languages</span>
             </Link>
           ),
-          icon: <FontAwesomeIcon icon={faCubes} />,
-        },
-        {
-          key: "report-customer",
-          label: (
-            <Link to="/report/report-customer">
-              <span className="ml-2">Customer</span>
-            </Link>
-          ),
-          icon: <FontAwesomeIcon icon={faUserAlt} />,
-        },
-        {
-          key: "report-supplier",
-          label: (
-            <Link to="/report/report-supplier">
-              <span className="ml-2">Supplier</span>
-            </Link>
-          ),
-          icon: <FontAwesomeIcon icon={faUserFriends} />,
+          icon: <FontAwesomeIcon icon={faLanguage} />,
         },
       ],
-    },
-    {
-      key: "i18n",
-      label: (
-        <Link to="/i18n">
-          <span className="ml-2">Languages</span>
-        </Link>
-      ),
-      icon: <FontAwesomeIcon icon={faLanguage} />,
     },
   ];
   return (

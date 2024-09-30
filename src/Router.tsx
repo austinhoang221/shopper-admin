@@ -14,6 +14,12 @@ import Customer from "@pages/layout/partner/customer/Customer";
 import Carrier from "@pages/layout/partner/carrier/Carrier";
 import Supplier from "@pages/layout/partner/supplier/Supplier";
 import TransactionOrder from "@pages/layout/transactions/transaction-order/transaction-order-drawer/TransactionOrder";
+import ReportSale from "@pages/layout/report/sale/report-sale";
+import Tags from "@pages/layout/setting/tags/tags";
+import Invoice from "@pages/layout/transactions/invoice/Invoice";
+import Return from "@pages/layout/transactions/return/Return";
+import Shipping from "@pages/layout/transactions/shipping/Shipping";
+import PurchaseReceipt from "@pages/layout/transactions/purchase-receipt/PurchaseReceipt";
 
 function Router() {
   return (
@@ -40,14 +46,34 @@ function Router() {
               <Route path="/category" element={<ProductCategory />}>
                 <Route path=":config/:id?" />
               </Route>
-              <Route path="/order/order-details" element={<OrderDetail />} />
               <Route path="/partner/partner-customer" element={<Customer />} />
               <Route path="/partner/partner-suppliers" element={<Supplier />} />
               <Route path="/partner/partner-carrier" element={<Carrier />} />
+              <Route path="/setting/tags" element={<Tags />} />
               <Route
                 path="/transaction/transaction-order"
-                element={<TransactionOrder />}
+                element={<OrderDetail />}
               />
+              <Route
+                path="/transaction/transaction-invoice"
+                element={<Invoice />}
+              >
+                <Route path=":config/:id?" />
+                <Route />
+              </Route>
+              <Route
+                path="/transaction/transaction-return"
+                element={<Return />}
+              />
+              <Route
+                path="/transaction/transaction-shipping"
+                element={<Shipping />}
+              />
+              <Route
+                path="/transaction/purchase-receipt"
+                element={<PurchaseReceipt />}
+              />
+              <Route path="/report/report-sale" element={<ReportSale />} />
               <Route path="*" element={<UnSupported />} />
             </Route>
           </Route>

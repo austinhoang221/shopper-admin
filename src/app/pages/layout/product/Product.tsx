@@ -1,5 +1,15 @@
-import { Button, Table, TableColumnsType, Tooltip, Image, message } from "antd";
-import React from "react";
+import {
+  Button,
+  Table,
+  TableColumnsType,
+  Tooltip,
+  Image,
+  Popover,
+  CheckboxOptionType,
+  Checkbox,
+  message,
+} from "antd";
+import React, { useState } from "react";
 import { faker } from "@faker-js/faker";
 import Title from "antd/es/typography/Title";
 import Search from "antd/es/input/Search";
@@ -16,14 +26,15 @@ import { useNavigate } from "react-router-dom";
 import ProductDrawer from "./drawer/ProductDrawer";
 
 type Props = {};
-
 const Product = (props: Props) => {
   const [products, setProducts] = React.useState<DataType[]>([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
+  const [searchText, setSearchText] = React.useState<string>("");
   const navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
 
   const { tableRef, scroll } = useTableScroll();
+  const [open, setOpen] = useState(false);
   interface DataType {
     key: React.Key;
     // img: string;
@@ -72,6 +83,23 @@ const Product = (props: Props) => {
     createFakeData();
     setIsLoading(false);
   }, []);
+
+  const onSearch = (value: string) => {
+    setIsLoading(true);
+    if (value) {
+      setTimeout(() => {
+        setProducts((prev) =>
+          prev.filter((item) =>
+            item.name.toLowerCase().includes(value.toLowerCase())
+          )
+        );
+        setIsLoading(false);
+      }, 1500);
+    } else {
+      createFakeData();
+      setIsLoading(false);
+    }
+  };
 
   const columns: TableColumnsType<DataType> = [
     // {
@@ -176,6 +204,32 @@ const Product = (props: Props) => {
     setIsLoading(false);
   };
 
+  const defaultCheckedList = columns.map((item) => item.key);
+  const [checkedList, setCheckedList] = React.useState(defaultCheckedList);
+  const [newColumns, setNewColumns] = React.useState(columns);
+
+  const options = columns.map(({ key, title }) => ({
+    value: key,
+    label: title,
+  }));
+
+  const handleOpenChange = (newOpen: boolean) => {
+    setOpen(newOpen);
+  };
+
+  const hide = () => {
+    const updatedColumns = columns.map((item) => ({
+      ...item,
+      hidden: !checkedList.includes(item.key as string),
+    }));
+    setNewColumns(updatedColumns);
+    setOpen(false);
+  };
+
+  const reset = () => {
+    setNewColumns(columns);
+  };
+
   return (
     <div className="product">
       <Title level={3}>Product Management</Title>
@@ -184,7 +238,10 @@ const Product = (props: Props) => {
           placeholder="Search by name or code"
           style={{ width: 300 }}
           allowClear
+          value={searchText}
+          onChange={(ev) => setSearchText(ev.target.value)}
           enterButton
+          onSearch={onSearch}
         />
         <div className="flex">
           <Tooltip title="Create">
@@ -206,10 +263,41 @@ const Product = (props: Props) => {
               <FontAwesomeIcon icon={faFileImport} />
             </Button>
           </Tooltip>
-          <Tooltip title="Config">
-            <Button className="mr-2">
-              <FontAwesomeIcon icon={faListAlt} />
-            </Button>
+          <Tooltip title="Configuration">
+            <Popover
+              placement="bottomRight"
+              content={
+                <>
+                  <Checkbox.Group
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "1fr 1fr",
+                      gap: "8px",
+                      width: "300px",
+                    }}
+                    value={checkedList}
+                    options={options as CheckboxOptionType[]}
+                    onChange={(value) => {
+                      setCheckedList(value as string[]);
+                    }}
+                  />
+                  <br />
+                  <Button type="text" onClick={reset} className="mr-2">
+                    Reset
+                  </Button>
+                  <Button type="primary" onClick={hide}>
+                    Apply
+                  </Button>
+                </>
+              }
+              trigger="click"
+              open={open}
+              onOpenChange={handleOpenChange}
+            >
+              <Button className="mr-2">
+                <FontAwesomeIcon icon={faListAlt} />
+              </Button>
+            </Popover>
           </Tooltip>
         </div>
       </div>
@@ -217,7 +305,7 @@ const Product = (props: Props) => {
         ref={tableRef}
         scroll={scroll}
         rowSelection={{}}
-        columns={columns}
+        columns={newColumns}
         dataSource={products}
         loading={isLoading}
       />
@@ -226,5 +314,4 @@ const Product = (props: Props) => {
     </div>
   );
 };
-
 export default Product;
